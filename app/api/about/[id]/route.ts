@@ -19,6 +19,7 @@ export const GET = async (
                 { status: 400 }
             );
         }
+        
         await connect();
         const about = await About.findById(aboutId);
         if (!about) {

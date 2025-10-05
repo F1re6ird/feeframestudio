@@ -49,8 +49,12 @@ export interface IHome {
 }
 
 export interface Testimonial {
-    _id: string;
-    name: string;
-    role?: string;
-    content: string;
+  _id: string;
+  name: string;
+  role?: string;
+  content: string;
+}
+
+export interface IAboutUs {
+  aboutUs: string;
 }

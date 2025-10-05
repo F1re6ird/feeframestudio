@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import WeirdNav from "./components/WeirdNav";
 import Image from "next/image";
 import useFetchHome from "./components/hooks/UseFetchHome";
@@ -14,6 +14,8 @@ import VideoPlayer from "./components/VideoPlayer";
 import { useRouter } from "next/navigation";
 import Footer from "./ui/Footer";
 import TextSkeleton from "./components/TextSkeleton";
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 
 function getYouTubeId(url: string | undefined): string {
@@ -30,18 +32,57 @@ export default function Page() {
   const { homeData, homeLoading, homeError } = useFetchHome<IHome[]>('/api/homepage');
 
   // 👇 include ALL sections, not just the colored ones
-  const sectionRefs = {
-    home: useRef<HTMLDivElement | null>(null),
-    videos: useRef<HTMLDivElement | null>(null),
-    pictures: useRef<HTMLDivElement | null>(null),
-    designs: useRef<HTMLDivElement | null>(null),
-    contact: useRef<HTMLDivElement | null>(null),
-    wallOfLove: useRef<HTMLDivElement | null>(null),
-    showreel: useRef<HTMLDivElement | null>(null),
-    why: useRef<HTMLDivElement | null>(null),
-    about: useRef<HTMLDivElement | null>(null),
-  };
+  const homeRef = useRef<HTMLDivElement | null>(null);
+  const videosRef = useRef<HTMLDivElement | null>(null);
+  const picturesRef = useRef<HTMLDivElement | null>(null);
+  const designsRef = useRef<HTMLDivElement | null>(null);
+  const contactRef = useRef<HTMLDivElement | null>(null);
+  const wallOfLoveRef = useRef<HTMLDivElement | null>(null);
+  const showreelRef = useRef<HTMLDivElement | null>(null);
+  const whyRef = useRef<HTMLDivElement | null>(null);
+  const aboutRef = useRef<HTMLDivElement | null>(null);
 
+  const sectionRefs = useMemo(() => ({
+    home: homeRef,
+    videos: videosRef,
+    pictures: picturesRef,
+    designs: designsRef,
+    contact: contactRef,
+    wallOfLove: wallOfLoveRef,
+    showreel: showreelRef,
+    why: whyRef,
+    about: aboutRef,
+  }), []);
+
+  useEffect(() => {
+  if (homeLoading) return; // 👈 don’t run GSAP until content is ready
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const triggers: ScrollTrigger[] = [];
+
+  Object.values(sectionRefs).forEach((ref) => {
+    if (ref.current) {
+      const anim = gsap.from(ref.current, {
+        opacity: 0,
+        y: 50,
+        duration: 1.5,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ref.current,
+          start: "top 80%", // 👈 later trigger (adjust as needed)
+          toggleActions: "play none none none", // one-time animation
+        },
+      });
+
+      triggers.push(anim.scrollTrigger as ScrollTrigger);
+    }
+  });
+
+  return () => {
+    triggers.forEach((t) => t.kill()); // cleanup
+  };
+}, [homeLoading, sectionRefs]); // 👈 depend on homeLoading and sectionRefs
 
 
   // 👇 Only these have special colors
@@ -118,13 +159,6 @@ export default function Page() {
           className="grid sm:grid-cols-2 grid-cols-1 sm:gap-14 gap-16 mx-auto
           "
         >
-          {/* <Image
-            src="/artboard.jpg"
-            alt="VideoCard"
-            width={200}
-            height={200}
-            className="sm:h-[80vh] h-64 w-full object-cover rounded-lg"
-          /> */}
 
           {homeLoading ? (<div className="relative w-full h-96 mb-8 animate-pulse bg-brand rounded-lg opacity-40"></div>) : (<VideoPlayer
 
@@ -156,12 +190,6 @@ export default function Page() {
         </div>
 
         <div className="flex items-center justify-center gap-10 w-full py-40 h-fit">
-          {/* <h1
-            onClick={() => scrollToSection("videos")}
-            className="md:text-2xl lg:text-4xl text-xl font-bold cursor-pointer hover:font-bold hover:underline transition-all duration-200 capitalize hover:scale-90"
-          >
-            VIDEO
-          </h1> */}
           <Image
             onClick={() => scrollToSection("videos")}
             src={
@@ -172,12 +200,7 @@ export default function Page() {
             height={50}
             className="transition-all duration-200 capitalize hover:scale-90"
           />
-          {/* <h1
-            onClick={() => scrollToSection("pictures")}
-            className="md:text-2xl lg:text-4xl text-xl font-bold cursor-pointer hover:font-bold hover:underline transition-all duration-200 capitalize hover:scale-90"
-          >
-            PHOTOGRAPHY
-          </h1> */}
+
           <Image
             onClick={() => scrollToSection("pictures")}
             src={"/picture.png"}
@@ -186,13 +209,6 @@ export default function Page() {
             height={50}
             className="transition-all duration-200 capitalize hover:scale-90"
           />
-
-          {/* <h1
-            onClick={() => scrollToSection("designs")}
-            className="md:text-2xl lg:text-4xl text-xl font-bold cursor-pointer hover:font-bold hover:underline transition-all duration-200 capitalize hover:scale-90"
-          >
-            DESIGNS
-          </h1> */}
           <Image
             onClick={() => scrollToSection("designs")}
             src={"/design.png"}

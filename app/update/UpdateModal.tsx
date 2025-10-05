@@ -5,9 +5,9 @@ import { uploadImages } from '../lib/uploadImages';
 import Toast from '../components/Toast';
 import { divFilter } from '../lib/utility';
 import { IProject } from '../type';
+import Image from 'next/image';
 
 const types = ['video', 'photo', 'design'];
-
 
 import useFetch from '../components/hooks/UseFetch';
 
@@ -314,9 +314,11 @@ export default function UpdateModal({ userId, id }: { userId: string, id: string
                                             className="w-full h-32 object-cover rounded"
                                         />
                                     ) : (
-                                        <img
+                                        <Image
                                             src={URL.createObjectURL(file)}
                                             alt={file.name}
+                                            width={300}
+                                            height={300}
                                             className="w-full h-32 object-cover rounded"
                                         />
                                     )}
@@ -412,9 +414,11 @@ export default function UpdateModal({ userId, id }: { userId: string, id: string
                                             className="w-full h-32 object-cover rounded"
                                         />
                                     ) : (
-                                        <img
+                                        <Image
                                             src={URL.createObjectURL(file)}
                                             alt={file.name}
+                                            width={300}
+                                            height={300}
                                             className="w-full h-32 object-cover rounded"
                                         />
                                     )}
@@ -511,9 +515,11 @@ export default function UpdateModal({ userId, id }: { userId: string, id: string
                                             className="w-full h-32 object-cover rounded"
                                         />
                                     ) : (
-                                        <img
+                                        <Image
                                             src={URL.createObjectURL(file)}
                                             alt={file.name}
+                                            width={300}
+                                            height={300}
                                             className="w-full h-32 object-cover rounded"
                                         />
                                     )}
