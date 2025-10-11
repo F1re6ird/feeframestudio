@@ -82,7 +82,7 @@ export default function Page() {
             trigger: el,
             start: "top 85%",
             end: "bottom 60%",
-            toggleActions: "play none none reverse",
+            toggleActions: "play none none none", // ✅ only plays once
             // markers: true, // <-- enable for visual debugging
           },
         }
