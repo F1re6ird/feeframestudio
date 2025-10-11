@@ -12,7 +12,7 @@ const Navbar = () => {
                     alt='logo'
                     width={55}
                     height={70}
-                    className='w-[55px] h-[55px]'
+                    className='w-auto h-[55px]'
                 />
             </Link>
         </nav>

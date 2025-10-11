@@ -27,7 +27,7 @@ const WeirdNav = () => {
         <>
             <div
                 className={`
-          fixed top-4 right-4 text-brand-light bg-[#d85425] p-[1px] rounded-lg z-10 hover:scale-90 transition-all ease-in duration-100  ${isScrolled ? 'opacity-100 translate-y-0' : 'opacity-100 translate-y-0'}
+          fixed top-5 right-4 text-brand-light bg-[#d85425] p-[1px] rounded-lg z-10 hover:scale-90 transition-all ease-in duration-100  ${isScrolled ? 'opacity-100 translate-y-0' : 'opacity-100 translate-y-0'}
         `}>
                 <RxHamburgerMenu onClick={toggleMenu} className='w-[35px] h-[35px]' />
             </div>

@@ -28,15 +28,15 @@ const Design: React.FC<DesignProps> = ({
                 {designDescription}
             </p>
 
-            <div className='grid md:grid-cols-3 sm:grid-cols-2 pb-20 gap-4 sm:gap-0'>
+            <div className='grid md:grid-cols-3 sm:grid-cols-2 pb-20 gap-4'>
                 {designFiles.map((file, index) => (
-                    <div key={index} className=''>
+                    <div key={index} className='relative h-64 w-full'>
                         <Image
                             src={file.url}
                             alt={file.publicId}
-                            width={300}
-                            height={300}
-                            className='rounded-lg'
+                            fill
+                            sizes="100vw"
+                            className='object-cover rounded-lg'
                         />
                     </div>
                 ))}

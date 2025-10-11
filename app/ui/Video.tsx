@@ -25,7 +25,7 @@ const Video = ({
                     <div className='bg-[#d85425] p-8 border-t-[1px] border-[#414145]'>
                         <h1 className='sm:text-5xl text-3xl '>{title}</h1>
                     </div>
-                    <div className='bg-[#414145] min-h-full p-8'>
+                    <div className='bg-brand-light text-brand min-h-full p-8 pr-14'>
                         <p>{shortDescription}</p>
                     </div>
                 </div>

@@ -52,11 +52,16 @@ const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => {
   );
 };
 
-export default function WallOfLove() {
+export default function WallOfLove({ sectionRefs }: { sectionRefs: { [key: string]: React.RefObject<HTMLDivElement | null> } }) {
 
   const { data, loading, error } = useFetch<Testimonial[]>('/api/testimony');
 
-  if (loading) return <>
+  if (loading) return
+  (<div
+    id="wallOfLove"
+    ref={sectionRefs.wallOfLove}
+    className="min-h-screen mt-32"
+  >
     <div className="pt-16 pb-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto text-center">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 border border-white/30 mb-6">
@@ -67,7 +72,7 @@ export default function WallOfLove() {
         </div>
 
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-          What Our Users Say
+          What Our Clients Say
         </h1>
 
         <p className="text-xl max-w-3xl mx-auto leading-relaxed">
@@ -82,13 +87,16 @@ export default function WallOfLove() {
       ))}
     </div>
 
-  </>
+  </div>)
 
   if (error) return <div>Something went wrong</div>;
 
   return (
-    <div className="min-h-screen">
-      {/* Background Pattern */}
+    ((data ?? []).length > 0) && (<div
+      id="wallOfLove"
+      ref={sectionRefs.wallOfLove}
+      className="min-h-screen"
+    >
 
       <div className="relative">
         {/* Header */}
@@ -102,7 +110,7 @@ export default function WallOfLove() {
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-              What Our Users Say
+              What Our Clients Say
             </h1>
 
             <p className="text-xl max-w-3xl mx-auto leading-relaxed">
@@ -131,8 +139,7 @@ export default function WallOfLove() {
                 Ready to Join Them?
               </h2>
               <p className=" mb-8 max-w-2xl mx-auto">
-                Experience the difference for yourself. Join thousands of users who have already
-                transformed their workflow with our platform.
+                Experience the difference for yourself. Join professionals who’ve transformed their workflow with our platform.
               </p>
 
               <div className="flex items-center sm:flex-row gap-4 justify-center">
@@ -144,6 +151,6 @@ export default function WallOfLove() {
           </div>
         </div>
       </div>
-    </div>
+    </div>)
   );
 }

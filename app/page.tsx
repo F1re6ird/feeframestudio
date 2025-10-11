@@ -14,8 +14,11 @@ import VideoPlayer from "./components/VideoPlayer";
 import { useRouter } from "next/navigation";
 import Footer from "./ui/Footer";
 import TextSkeleton from "./components/TextSkeleton";
-import gsap from "gsap"
+import ErrorPage from "./ui/ErrorPage";
+import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 
 function getYouTubeId(url: string | undefined): string {
@@ -55,34 +58,45 @@ export default function Page() {
   }), []);
 
   useEffect(() => {
-  if (homeLoading) return; // 👈 don’t run GSAP until content is ready
+    if (homeLoading) return; // do nothing until data is loaded
 
-  gsap.registerPlugin(ScrollTrigger);
+    // Clean up any pre-existing triggers for safety
+    ScrollTrigger.getAll().forEach((t) => t.kill());
 
-  const triggers: ScrollTrigger[] = [];
+    const createdTriggers: ScrollTrigger[] = [];
 
-  Object.values(sectionRefs).forEach((ref) => {
-    if (ref.current) {
-      const anim = gsap.from(ref.current, {
-        opacity: 0,
-        y: 50,
-        duration: 1.5,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ref.current,
-          start: "top 80%", // 👈 later trigger (adjust as needed)
-          toggleActions: "play none none none", // one-time animation
-        },
-      });
+    // animate each section ref if it has a DOM node
+    Object.values(sectionRefs).forEach((ref) => {
+      const el = ref.current;
+      if (!el) return;
 
-      triggers.push(anim.scrollTrigger as ScrollTrigger);
-    }
-  });
+      const tween = gsap.fromTo(
+        el,
+        { opacity: 0, y: 60 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            end: "bottom 60%",
+            toggleActions: "play none none reverse",
+            // markers: true, // <-- enable for visual debugging
+          },
+        }
+      );
 
-  return () => {
-    triggers.forEach((t) => t.kill()); // cleanup
-  };
-}, [homeLoading, sectionRefs]); // 👈 depend on homeLoading and sectionRefs
+      if (tween.scrollTrigger) createdTriggers.push(tween.scrollTrigger);
+    });
+
+    return () => {
+      createdTriggers.forEach((t) => t.kill && t.kill());
+    };
+  }, [homeLoading, sectionRefs]);
+
+
 
 
   // 👇 Only these have special colors
@@ -92,8 +106,6 @@ export default function Page() {
     designs: "bg-brand-dark text-brand-light",
     wallOfLove: "bg-brand text-brand-light",
   };
-
-
 
   const fallbackBg = "bg-brand-light text-brand";
 
@@ -141,13 +153,13 @@ export default function Page() {
   };
 
 
-  if (homeError) return <div>Something went wrong</div>;
+  if (homeError) return <ErrorPage />;
   // 👇 Render
   return (
     <>
       <Navbar />
       <div
-        className={`relative p-4 transition-colors duration-500 ${colorMap[activeSection] || fallbackBg
+        className={`relative p-4 transition-colors duration-500 flex flex-col gap-12 sm:gap-16 ${colorMap[activeSection] || fallbackBg
           }`}
       >
         <WeirdNav />
@@ -156,11 +168,10 @@ export default function Page() {
         <div
           id="home"
           ref={sectionRefs.home}
-          className="grid sm:grid-cols-2 grid-cols-1 sm:gap-14 gap-16 mx-auto
-          "
+          className="grid sm:grid-cols-2 grid-cols-1 sm:gap-14 gap-9"
         >
 
-          {homeLoading ? (<div className="relative w-full h-96 mb-8 animate-pulse bg-brand rounded-lg opacity-40"></div>) : (<VideoPlayer
+          {homeLoading ? (<div className="relative w-full h-96 animate-pulse bg-brand rounded-lg opacity-70"></div>) : (<VideoPlayer
 
             src={
               Array.isArray(homeData?.[0]?.heroVideo)
@@ -176,10 +187,10 @@ export default function Page() {
           <div className="flex flex-col justify-center ">
 
             {/** Hero Text */}
-            <div className="flex flex-col gap-8 sm:items-start items-center">
-              {homeLoading ? <TextSkeleton /> : (<h1 className="md:text-2xl lg:text-4xl text-xl font-bold w-3-fit text-center sm:text-left">
+            <div className="flex flex-col gap-8 sm:items-start items-center ">
+              {homeLoading ? <TextSkeleton /> : (<p className="md:text-2xl lg:text-4xl text-xl font-bold w-3-fit text-center sm:text-left leading-snug md:leading-normal lg:leading-relaxed">
                 {homeData?.[0]?.heroText}
-              </h1>)}
+              </p>)}
               <button
                 onClick={() => scrollToSection("contact")}
                 className="border-brand border-2 px-10 py-4 w-fit md:text-2xl lg:text-4xl text-xl rounded-lg hover:bg-brand hover:text-brand-light font-bold transition-all duration-200 hover:scale-110">
@@ -189,44 +200,38 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-10 w-full py-40 h-fit">
-          <Image
+        <div className="flex items-center justify-center gap-1 md:gap-4 w-full h-fit py-8">
+          <h1
             onClick={() => scrollToSection("videos")}
-            src={
-              '/video.png'
-            }
-            alt="video section"
-            width={50}
-            height={50}
-            className="transition-all duration-200 capitalize hover:scale-90"
-          />
-
-          <Image
+            className="transition-all duration-200 capitalize hover:scale-90 cursor-pointer text-xl font-bold sm:text-4xl"
+          >
+            VIDEOS
+          </h1>
+          |
+          <h1
             onClick={() => scrollToSection("pictures")}
-            src={"/picture.png"}
-            alt="photo section"
-            width={50}
-            height={50}
-            className="transition-all duration-200 capitalize hover:scale-90"
-          />
-          <Image
+            className="transition-all duration-200 capitalize hover:scale-90 cursor-pointer text-xl font-bold sm:text-4xl"
+          >
+            PHOTOGRAPHY
+          </h1>
+          |
+          <h1
             onClick={() => scrollToSection("designs")}
-            src={"/design.png"}
-            alt="design section"
-            width={50}
-            height={50}
-            className="transition-all duration-200 capitalize hover:scale-90"
-          />
+            className="transition-all duration-200 capitalize hover:scale-90 cursor-pointer text-xl font-bold sm:text-4xl"
+          >
+            DESIGNS
+          </h1>
         </div>
+
 
         <div
           id="about"
           ref={sectionRefs.about}
-          className="grid sm:grid-cols-2 grid-cols-1 sm:gap-16 sm:px-16 md:px-24 mb-32 sm:text-left text-center"
+          className="grid sm:grid-cols-2 grid-cols-1 gap-8 sm:gap-16 sm:px-16 md:px-24 sm:text-left text-center py-8"
         >
 
           {homeLoading ? (<div className="relative w-full h-96 mb-8 animate-pulse bg-brand rounded-lg opacity-40"></div>) :
-            (<div className="relative w-full h-96 mb-8">
+            (<div className="relative w-full min-h-96">
               <Image
                 src={
                   Array.isArray(homeData?.[0]?.heroVideo)
@@ -241,16 +246,14 @@ export default function Page() {
               />
             </div>)
           }
-
-
           <div className="flex flex-col gap-4 justify-center items-start">
             <h1 className="md:text-2xl lg:text-4xl mx-auto sm:m-0 text-xl font-bold">Welcome to our studio</h1>
 
-            <div className="flex flex-col gap-4 sm:items-start items-center">
+            <div className="flex flex-col w-full gap-4 items-center sm:items-start">
 
               {homeLoading ?
                 (<TextSkeleton />) :
-                (<p className="text-[14px] md:text-[16px] lg:text-[18px] leading-[200%]">
+                (<p className="text-[14px] md:text-[16px] lg:text-[18px] leading-[200%] ">
                   {homeData?.[0]?.shortAbout}
                 </p>)
               }
@@ -265,22 +268,16 @@ export default function Page() {
         </div>
 
         {/* Videos */}
-        <section className="min-h-screen flex flex-col gap-16">
-
+        <section className="min-h-screen flex flex-col gap-8">
           <VideoHomePage sectionRefs={sectionRefs} />
-
-          {/* Pictures */}
           <PictureHomePage sectionRefs={sectionRefs} />
-
-          {/* Designs */}
           <DesignHomePage sectionRefs={sectionRefs} />
-
         </section>
 
         <div
           id="showreel"
           ref={sectionRefs.showreel}
-          className="md:min-h-screen min-h-[600px] flex items-center justify-center md:mt-16"
+          className="md:min-h-screen flex items-center justify-center"
         >
 
           <div className="w-full">
@@ -299,7 +296,7 @@ export default function Page() {
         <div
           id="why"
           ref={sectionRefs.why}
-          className="grid sm:grid-cols-2 grid-cols-1 gap-16 md:mt-32 sm:mt-16 px-4 md:px-24"
+          className="grid sm:grid-cols-2 grid-cols-1 gap-8 sm:gap-12 px-4 md:px-24"
         >
           <div className="flex flex-col gap-4 md:justify-center items-left">
             <h1 className="md:text-2xl lg:text-4xl text-xl font-bold">Why choose us?</h1>
@@ -328,13 +325,8 @@ export default function Page() {
 
         </div>
 
-        <div
-          id="wallOfLove"
-          ref={sectionRefs.wallOfLove}
-          className="min-h-screen mt-32"
-        >
-          <WallOfLove />
-        </div>
+        <WallOfLove sectionRefs={sectionRefs} />
+
 
         {/* Contact */}
         <div

@@ -13,6 +13,8 @@ export default function UploadModal({ userId }: { userId: string }) {
     const [status, setStatus] = useState('')
     const [selected, setSelected] = useState<string[]>([])
 
+    console.log(selected)
+
     const [loading, setLoading] = useState(false);
     const [thumbnail, setThumbnail] = useState<File[]>([]);
     const [photoFiles, setPhotoFiles] = useState<File[]>([]);
@@ -131,7 +133,8 @@ export default function UploadModal({ userId }: { userId: string }) {
     };
 
     return (
-        <div className="bg-white w-full min-h-[90vh] overflow-y-auto">
+        <div className="relative bg-white w-full min-h-[90vh] overflow-y-auto">
+
             <Toast
                 show={show}
                 message={status}

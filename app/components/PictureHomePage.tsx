@@ -14,7 +14,7 @@ const PictureHomePage = ({ sectionRefs }: { sectionRefs: { [key: string]: React.
 
     const { data, loading, error } = useFetch<IProject[]>('/api/projects?type=photo&limit=4')
     const handleClick = () => {
-        router.push('/more/photo')
+        router.push('/more/picture')
     }
 
     if (loading) {
@@ -43,11 +43,11 @@ const PictureHomePage = ({ sectionRefs }: { sectionRefs: { [key: string]: React.
     if (error) return <div>Error: {error.message}</div>;
 
     return (
-        <div id="pictures" ref={sectionRefs.pictures} className="min-h-screen flex flex-col items-center" >
+        <div id="pictures" ref={sectionRefs.pictures} className="h-fit flex flex-col items-center" >
             <h1 className='text-[14px] md:text-[16px] lg:text-[18px] leading-[200%]'>
                 Featured Pictures
             </h1>
-            <div className="md:flex gap-4 w-full p-4 py-8">
+            <div className="md:flex gap-4 w-full p-4 py-4">
                 {
                     data?.map((project: IProject) => <PictureCard
                         key={project._id}

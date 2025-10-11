@@ -47,7 +47,7 @@ const AboutUs = () => {
 
                     <div className="relative w-full min-h-96">
                         <Image
-                            src="/kortyagian.jpg"
+                            src="/korty.jpg"
                             alt="About Card"
                             fill
                             className="object-cover rounded-lg"

@@ -43,7 +43,7 @@ const DesignHomePage = ({ sectionRefs }: { sectionRefs: { [key: string]: React.R
     if (error) return <div>Error: {error.message}</div>;
 
     return (
-        <div id="designs" ref={sectionRefs.designs} className="min-h-screen flex flex-col items-center" >
+        <div id="designs" ref={sectionRefs.designs} className="h-fit flex flex-col items-center" >
             <h1 className='text-[14px] md:text-[16px] lg:text-[18px] leading-[200%]'>
                 Featured Designs
             </h1>

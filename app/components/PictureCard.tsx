@@ -19,7 +19,6 @@ const PictureCard = ({ type, id, title, url }: {
     const router = useRouter()
 
     const handleClick = (id: string) => {
-        console.log(id)
         setTag(type)
         router.push(`/project/${id}`)
 

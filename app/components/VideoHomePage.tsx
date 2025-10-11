@@ -52,11 +52,11 @@ const VideoHomePage = ({ sectionRefs }: { sectionRefs: { [key: string]: React.Re
     };
 
     return (
-        <div id="videos" ref={sectionRefs.videos} className="min-h-screen flex flex-col items-center" >
+        <div id="videos" ref={sectionRefs.videos} className="h-fit flex flex-col items-center" >
             <h1 className='text-[14px] md:text-[16px] lg:text-[18px] leading-[200%]'>
                 Featured Videos
             </h1>
-            <div className="md:flex gap-4 w-full p-4 py-8">
+            <div className="md:flex gap-4 w-full p-4 py-4">
                 {
                     data?.map((project: IProject) => <VideoCard
                         key={project._id}

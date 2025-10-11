@@ -18,7 +18,7 @@ const Pictures = ({
     title: string
 }) => {
     return (
-        <div className='bg-brand-secondary min-h-screen text-brand-light pr-4 py-20 md:px-14'>
+        <div className='bg-brand-secondary text-brand-light min-h-screen pr-4 py-20 md:px-14'>
             <h1 className='text-4xl font-bold mb-8 p-4'>
                 {`Photographs from ${title}`}
             </h1>

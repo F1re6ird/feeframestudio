@@ -584,7 +584,7 @@ export default function UpdateModal({ userId, id }: { userId: string, id: string
                         disabled={formLoading || selected.length === 0}
                         className={`px-4 py-2 text-sm font-medium rounded-md ${formLoading || selected.length === 0
                             ? "bg-gray-400 cursor-not-allowed"
-                            : "bg-indigo-600 hover:bg-indigo-700 text-white"
+                            : "bg-brand hover:scale-105 duration-200 transition-all text-white"
                             }`}
                     >
                         {formLoading ? "Uploading..." : "Add to Portfolio"}

@@ -114,7 +114,7 @@ const Contact = () => {
                             <textarea
                                 name="message"
                                 id="message"
-                                className='bg-[#5c5c60]  h-28 px-2 pt-2 rounded-lg text-brand-light'
+                                className='bg-[#5c5c60]  h-40 px-2 pt-2 rounded-lg text-brand-light'
                                 placeholder='Your Message'
                                 value={formData.message}
                                 onChange={handleChange}

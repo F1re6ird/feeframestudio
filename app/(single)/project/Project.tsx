@@ -68,7 +68,7 @@ const ProjectDetails = ({ id }: { id: string }) => {
                 }
                 <div className='bg-brand p-8 flex items-center justify-center gap-2'>
                     <p
-                        onClick={() => router.push("/")}
+                        onClick={() => router.push("/more/design")}
                         className='text-brand-light underline cursor-pointer hover:scale-105 duration-200 transition-all'>
                         View more projects click here
                     </p>
@@ -104,7 +104,7 @@ const ProjectDetails = ({ id }: { id: string }) => {
                 }
                 <div className='bg-brand p-8 flex items-center justify-center gap-2'>
                     <p
-                        onClick={() => router.push("/")}
+                        onClick={() => router.push("/more/picture")}
                         className='text-brand-light underline cursor-pointer hover:scale-105 duration-200 transition-all'>
                         View more projects click here
                     </p>
@@ -138,7 +138,7 @@ const ProjectDetails = ({ id }: { id: string }) => {
                 }
                 <div className='bg-brand p-8 flex items-center justify-center gap-2'>
                     <p
-                        onClick={() => router.push("/")}
+                        onClick={() => router.push("/more/video")}
                         className='text-brand-light underline cursor-pointer hover:scale-105 duration-200 transition-all'>
                         View more projects click here
                     </p>
