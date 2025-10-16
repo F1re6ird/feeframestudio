@@ -9,7 +9,7 @@ interface VideoPlayerProps {
 const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, poster }) => {
 
     return (
-        <div className={`sm:h-[80vh] h-72 w-full object-cover rounded-lg`}>
+        <div  className={`sm:h-[80vh] h-80 w-full object-cover rounded-lg`}>
             <video
                 autoPlay
                 loop

@@ -95,7 +95,6 @@ export const POST = async (request: Request) => {
     console.log("Project Files:", videoUploads);
     console.log("Photo Files:", photoUploads);
     console.log("Design Files:", designUploads);
-    console.log("Types:", types);
 
     // Create new project document
     const newProject: IProject = await Project.create({
@@ -106,6 +105,8 @@ export const POST = async (request: Request) => {
       photoFiles: photoUploads || [],
       designFiles: designUploads || [],
     });
+
+    console.log(newProject);
 
     await newProject.save();
     return NextResponse.json(

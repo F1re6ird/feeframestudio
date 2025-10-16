@@ -43,18 +43,7 @@ const Contact = () => {
     return (
         <div>
             <div className='flex flex-col justify-center items-center gap-16' >
-                <div className='flex flex-col items-center gap-16 h-fit min-h-96 justify-center pt-28'>
-                    <h1 className='text-6xl md:text-8xl font-bold'>
-                        {"CONTACT"}
-                    </h1>
-                    <p className='text-2xl text-center'>
-                        You can reach us by filling out the form below, or send us an email to feelframe@studio.om
-                    </p>
-
-                    <p className='text-2xl'>
-                        Phone: +234 810 234 7354
-                    </p>
-                </div>
+                
 
                 {/* form */}
                 <form

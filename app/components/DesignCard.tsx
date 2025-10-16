@@ -42,10 +42,6 @@ const DesignCard = ({ type, id, title, url }: {
                 className='text-2xl font-bold underline text-center'>
                 {title}
             </h2>
-            <h2
-                className='text-2xl font-bold'>
-                {type}
-            </h2>
 
         </div >
     )

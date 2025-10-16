@@ -45,6 +45,8 @@ export default function Page() {
   const whyRef = useRef<HTMLDivElement | null>(null);
   const aboutRef = useRef<HTMLDivElement | null>(null);
 
+
+
   const sectionRefs = useMemo(() => ({
     home: homeRef,
     videos: videosRef,
@@ -96,9 +98,6 @@ export default function Page() {
     };
   }, [homeLoading, sectionRefs]);
 
-
-
-
   // 👇 Only these have special colors
   const colorMap: Record<string, string> = {
     videos: "bg-brand text-brand-light",
@@ -108,6 +107,8 @@ export default function Page() {
   };
 
   const fallbackBg = "bg-brand-light text-brand";
+
+  console.log(colorMap[activeSection]);
 
   // 👇 IntersectionObserver
   useEffect(() => {
@@ -188,19 +189,21 @@ export default function Page() {
 
             {/** Hero Text */}
             <div className="flex flex-col gap-8 sm:items-start items-center ">
-              {homeLoading ? <TextSkeleton /> : (<p className="md:text-2xl lg:text-4xl text-xl font-bold w-3-fit text-center sm:text-left leading-snug md:leading-normal lg:leading-relaxed">
+              {homeLoading ? <TextSkeleton /> : (<p className={`md:text-2xl lg:text-5xl text-xl font-bold w-3-fit text-center sm:text-left leading-snug md:leading-normal lg:leading-relaxed ${colorMap[activeSection] && colorMap[activeSection].includes("bg-") ? "text-brand-light" : "text-brand-dark"
+                }`}>
                 {homeData?.[0]?.heroText}
               </p>)}
               <button
                 onClick={() => scrollToSection("contact")}
-                className="border-brand border-2 px-10 py-4 w-fit md:text-2xl lg:text-4xl text-xl rounded-lg hover:bg-brand hover:text-brand-light font-bold transition-all duration-200 hover:scale-110">
+                className="border-brand bg-brand text-brand-light border-2 px-10 py-4 w-fit md:text-2xl lg:text-4xl text-xl rounded-lg font-semi-bold transition-all duration-200 hover:scale-110">
                 Contact
               </button>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-1 md:gap-4 w-full h-fit py-8">
+        <div className={`flex items-center justify-center gap-1 md:gap-4 w-full h-fit py-8 ${colorMap[activeSection] && colorMap[activeSection].includes("bg-") ? "text-brand-light" : "text-brand"
+          }`}>
           <h1
             onClick={() => scrollToSection("videos")}
             className="transition-all duration-200 capitalize hover:scale-90 cursor-pointer text-xl font-bold sm:text-4xl"
@@ -230,7 +233,7 @@ export default function Page() {
           className="grid sm:grid-cols-2 grid-cols-1 gap-8 sm:gap-16 sm:px-16 md:px-24 sm:text-left text-center py-8"
         >
 
-          {homeLoading ? (<div className="relative w-full h-96 mb-8 animate-pulse bg-brand rounded-lg opacity-40"></div>) :
+          {homeLoading ? (<div className="relative w-full h-fit mb-8 animate-pulse bg-brand rounded-lg opacity-40"></div>) :
             (<div className="relative w-full min-h-96">
               <Image
                 src={
@@ -247,20 +250,22 @@ export default function Page() {
             </div>)
           }
           <div className="flex flex-col gap-4 justify-center items-start">
-            <h1 className="md:text-2xl lg:text-4xl mx-auto sm:m-0 text-xl font-bold">Welcome to our studio</h1>
+            {/* <h1 className="md:text-2xl lg:text-4xl mx-auto sm:m-0 text-xl font-bold">Welcome to our studio</h1> */}
 
             <div className="flex flex-col w-full gap-4 items-center sm:items-start">
 
               {homeLoading ?
                 (<TextSkeleton />) :
-                (<p className="text-[14px] md:text-[16px] lg:text-[18px] leading-[200%] ">
+                (<p className={`text-[14px] md:text-[16px] lg:text-[20px] leading-[200%] font-bold ${colorMap[activeSection] && colorMap[activeSection].includes("bg-") ? "text-brand-light" : "text-brand-dark"
+                  }`}>
                   {homeData?.[0]?.shortAbout}
                 </p>)
               }
 
               <button
                 onClick={() => router.push('/about')}
-                className="border-brand border-2 px-10 py-4 w-fit md:text-2xl lg:text-4xl text-xl rounded-lg sm:m-0 hover:bg-brand hover:text-brand-light font-bold transition-all duration-200 hover:scale-110">
+                className={`border-brand border-2 px-10 py-4 w-fit md:text-2xl lg:text-4xl text-xl rounded-lg sm:m-0 hover:text-brand-light font-bold transition-all duration-200 hover:scale-110 bg-brand text-brand-light ${colorMap[activeSection] && colorMap[activeSection].includes("bg-") ? "border-brand-light" : ""
+                  }`}>
                 About Us
               </button>
             </div>
@@ -298,9 +303,10 @@ export default function Page() {
           ref={sectionRefs.why}
           className="grid sm:grid-cols-2 grid-cols-1 gap-8 sm:gap-12 px-4 md:px-24"
         >
-          <div className="flex flex-col gap-4 md:justify-center items-left">
-            <h1 className="md:text-2xl lg:text-4xl text-xl font-bold">Why choose us?</h1>
-            {homeLoading ? (<TextSkeleton />) : (<p className="text-[14px] md:text-[16px] lg:text-[18px] leading-[200%]">
+          <div className={`flex flex-col gap-4 md:justify-center items-left ${colorMap[activeSection] && colorMap[activeSection].includes("bg-") ? "text-brand-light" : "text-brand-dark"
+            }`}>
+            <h1 className="md:text-3xl lg:text-4xl text-xl font-bold">Why choose us?</h1>
+            {homeLoading ? (<TextSkeleton />) : (<p className={`text-[14px] md:text-[16px] lg:text-[20px] leading-[200%]`}>
               {
                 (homeData?.[0]?.whyChoose)
               }
@@ -334,6 +340,15 @@ export default function Page() {
           ref={sectionRefs.contact}
           className="min-h-screen"
         >
+          <div className='flex flex-col items-center gap-16 h-fit min-h-96 justify-center pt-28'>
+            <h1 className='text-6xl md:text-8xl font-bold'>
+              {"CONTACT"}
+            </h1>
+            <p className={`text-2xl text-center text-brand-dark ${colorMap[activeSection] && colorMap[activeSection].includes("bg-") ? "text-brand-light" : "text-brand-dark"
+              }`}>
+              You can reach us by filling out the form below, or send us an email to feelframestudio@gmail.com
+            </p>
+          </div>
           <Contact />
         </div>
       </div>
