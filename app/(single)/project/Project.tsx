@@ -64,7 +64,7 @@ const ProjectDetails = ({ id }: { id: string }) => {
 
                 {
                     divFilter(types, "photo") &&
-                    <Pictures pictureShortDescription={data.pictureShortDescription} pictureMoreDescription={data.pictureLongDescription} photoFiles={data.photoFiles} title={data.projectTitle} />
+                    <Pictures pictureShortDescription={data.pictureShortDescription} photoFiles={data.photoFiles} title={data.projectTitle} />
                 }
                 <div className='bg-brand p-8 flex items-center justify-center gap-2'>
                     <p
@@ -86,7 +86,7 @@ const ProjectDetails = ({ id }: { id: string }) => {
                 <WeirdNav />
                 {
                     divFilter(types, "photo") &&
-                    <Pictures pictureShortDescription={data.pictureShortDescription} pictureMoreDescription={data.pictureLongDescription} photoFiles={data.photoFiles} title={data.projectTitle} />
+                    <Pictures pictureShortDescription={data.pictureShortDescription} photoFiles={data.photoFiles} title={data.projectTitle} />
                 }
 
                 {
@@ -125,7 +125,7 @@ const ProjectDetails = ({ id }: { id: string }) => {
                 }
                 {
                     divFilter(types, "photo") &&
-                    <Pictures pictureShortDescription={data.pictureShortDescription} pictureMoreDescription={data.pictureLongDescription} photoFiles={data.photoFiles} title={data.projectTitle} />
+                    <Pictures pictureShortDescription={data.pictureShortDescription} photoFiles={data.photoFiles} title={data.projectTitle} />
                 }
 
                 {
